@@ -88,6 +88,22 @@ target_compile_options(rtiow_bvh PRIVATE
 )
 target_link_libraries(rtiow_bvh PRIVATE CUDA::cudart)
 
+add_executable(rtiow_bvh_cpu
+  samples/CPU/src/main.cpp
+  samples/CUDA/src/bunny_load.cpp
+)
+target_include_directories(rtiow_bvh_cpu PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/samples/CPU/src
+  ${CMAKE_CURRENT_SOURCE_DIR}/samples/CUDA/src
+  ${CMAKE_CURRENT_SOURCE_DIR}/src
+  ${NTMESH_ROOT}/src
+  ${NTV_ROOT}/samples/CUDA/src
+  ${NTV_ROOT}/src
+)
+target_compile_definitions(rtiow_bvh_cpu PRIVATE BUNNY_GEO="${BUNNY_GEO}")
+target_compile_options(rtiow_bvh_cpu PRIVATE -Wall -Wextra -Wpedantic)
+target_link_libraries(rtiow_bvh_cpu PRIVATE Threads::Threads)
+
 message(STATUS "NTV_ROOT: ${NTV_ROOT}")
 message(STATUS "NTMESH_ROOT: ${NTMESH_ROOT}")
 message(STATUS "CUDA architectures: ${CMAKE_CUDA_ARCHITECTURES}")

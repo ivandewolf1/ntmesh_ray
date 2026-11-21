@@ -1,0 +1,44 @@
+#ifndef CPU_SPHERE_H
+#define CPU_SPHERE_H
+
+#include "hitable.h"
+#include <cmath>
+
+class sphere: public hitable  {
+    public:
+        sphere() {}
+        sphere(nvec3f cen, float r, material *m) : center(cen), radius(r), mat_ptr(m)  {};
+        virtual bool hit(const ray& r, float tmin, float tmax, hit_record& rec) const;
+        nvec3f center;
+        float radius;
+        material *mat_ptr;
+};
+
+inline bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
+    nvec3f oc = r.origin() - center;
+    float a = r.direction().dot(r.direction());
+    float b = oc.dot(r.direction());
+    float c = oc.dot(oc) - radius*radius;
+    float discriminant = b*b - a*c;
+    if (discriminant > 0) {
+        float temp = (-b - std::sqrt(discriminant))/a;
+        if (temp < t_max && temp > t_min) {
+            rec.t = temp;
+            rec.p = r.point_at_parameter(rec.t);
+            rec.normal = (rec.p - center) / radius;
+            rec.mat_ptr = mat_ptr;
+            return true;
+        }
+        temp = (-b + std::sqrt(discriminant)) / a;
+        if (temp < t_max && temp > t_min) {
+            rec.t = temp;
+            rec.p = r.point_at_parameter(rec.t);
+            rec.normal = (rec.p - center) / radius;
+            rec.mat_ptr = mat_ptr;
+            return true;
+        }
+    }
+    return false;
+}
+
+#endif

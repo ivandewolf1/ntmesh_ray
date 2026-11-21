@@ -4,15 +4,10 @@
 #include "material.h"
 #include "nmat4.h"
 #include "ntmesh_ray_bvh.h"
+#include "seat.h"
 
 // Rigid copy of a shared bunny tree. xform maps bunny space to world.
 // The ray is turned into bunny space, and the hit normal is turned back.
-
-struct MeshInst {
-    ntv::nmat4<float> xform;
-    float mn[3];
-    float mx[3];
-};
 
 class mesh_instance : public hitable {
 public:
