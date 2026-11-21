@@ -4,17 +4,22 @@ Header-only ray BVH over an ntmesh, plus two path-tracer samples that put that t
 
 `src/ntmesh_ray_bvh.h` builds a tree over triangles and quads. Triangles use Möller–Trumbore. A quad is two triangles or one bilinear patch. A point-normal array, when passed to the hit, is blended at the hit and kept facing the polygon. N-gons stay out of the tree. Call `clear()` when finished. A plain copy shares the node array.
 
-## Documentation
-
-- [Overview](docs/overview.md) — what is in the tree, what the samples share, and which headers they include
-- [Ray BVH](docs/ray_bvh.md) — `ntm::RayBVH`, build, hit, and ownership
-
 ## Samples
 
 Both samples load `samplegeo/mixed_manifold_bunny.geo`, build one mesh tree, and place three copies in the book's final scene. The mesh tree is built once. A second tree, over the spheres and the three copies, is rebuilt when a copy moves.
 
-- [CUDA](docs/cuda.md) — `rtiow_bvh`, 1200×800, 100 samples, 120 frames. The copy at x = 4 spins about a fixed axis.
+![CUDA sample, 120 frames](samples/CUDA/sample.gif)
+
+- [CUDA](docs/cuda.md) — `rtiow_bvh`, 1200×800, 100 samples, 120 frames. The copy at x = 4 spins about a fixed axis. The loop above is that spin. A still of the first frame is [`samples/CUDA/sample_thumb.jpg`](samples/CUDA/sample_thumb.jpg).
+
+![CPU sample](samples/CPU/sample_thumb.jpg)
+
 - [CPU](docs/cpu.md) — `rtiow_bvh_cpu`, one 640×480 frame, 16 samples, one row-band per thread. Prints the trace time.
+
+## Documentation
+
+- [Overview](docs/overview.md) — what is in the tree, what the samples share, and which headers they include
+- [Ray BVH](docs/ray_bvh.md) — `ntm::RayBVH`, build, hit, and ownership
 
 ## Related
 
